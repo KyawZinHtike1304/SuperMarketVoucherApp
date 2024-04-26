@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html th:replace="layout/masterLayout :: layout(~{::main})"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+<main role="main" >
+    <div class="container-fluid bg-light mt-5">
+        <div class="container p-5">
+            <section>
+                <div class="container text-center mt-4" id="product">
+                    <h1>Products of Supermarket</h1>
+                    <div class="row">
+                        <div class="col-md-4" th:each="p : ${products}">
+                            <div class="card mb-3">
+                                <img th:src="${p.imgUrl}" class="img-thumbnail" alt="">
+                                <div class="card-body d-flex justify-content-between" >
+                                    <h5 class="card-title" th:text="${p.name}"></h5>
+                                    <p class="lead" th:text="${p.price}+' ks'"></p>
+
+                                    <a th:href="@{'/cart/add-cart?id=' + ${p.id}}"
+                                       class="text-end mb-3 btn btn-outline-primary">Add</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="explore">
+                <div class="container text-center mt-4">
+                    <blockquote class="blockquote">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolor nobis possimus soluta sunt! Accusamus accusantium asperiores commodi culpa, explicabo fugiat in iste, iure iusto mollitia nisi officia recusandae, vero.
+                    </blockquote>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+
+</main>
+</body>
+</html>

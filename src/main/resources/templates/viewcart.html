@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html th:replace="layout/masterLayout :: layout(~{::main})"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main" id="view-cart" class="mt-5">
+    <div class="container-fluid bg-light">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col">
+                    <form th:object="${formWrapper}" th:action="@{/cart/checkout}" method="post">
+                        <div class="card shadow p-5 my-4">
+                            <div class="row mb-5">
+                                <div class="col-md-3">
+                                    <h4 style="display: inline">Customer Name</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" th:field="*{customer.name}" class="form-control me-5">
+                                </div>
+                                <div class="col-md-3">
+                                    <h4 style="display: inline" class="ms-5">Remark</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" th:field="*{customer.remark}" class="form-control me-5">
+                                </div>
+                            </div>
+                            <table class="table-striped" th:if="${!cartItems.isEmpty()}">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+<!--                                <tr th:each="item : ${cartItems}">-->
+<!--                                    <td th:text="${item.id}"></td>-->
+<!--                                    <td th:text="${item.name}"></td>-->
+<!--                                    <td>-->
+<!--                                        <input type="number" th:field="*{cartItem[__${itemStat.index}__].quantity}" class="form-control" />-->
+<!--                                        <input type="hidden" th:field="*{cartItem[__${itemStat.index}__].id}" class="form-control" th:value="${item.id}" />-->
+<!--                                        <input type="hidden" th:field="*{cartItem[__${itemStat.index}__].price}" class="form-control" th:value="${item.price}" />-->
+<!--                                    </td>-->
+
+<!--                                    <td th:text="${'$' + item.price}"></td>-->
+<!--                                    <td><a th:href="@{'/cart/delete?id=' + ${item.id} }" class="btn btn-outline-danger">Delete</a></td>-->
+<!--                                </tr>-->
+
+<tr th:each="item, itemStat : ${cartItems}">
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.name}"></td>
+    <td>
+        <input type="number" th:field="*{cartItem[__${itemStat.index}__].quantity}" class="form-control" style="width: 350px" />
+    </td>
+    <td>
+        <input type="hidden" th:name="cartItem[__${itemStat.index}__].id" th:value="${item.id}" />
+        <input type="hidden" th:name="cartItem[__${itemStat.index}__].price" th:value="${item.price}" />
+    </td>
+    <td th:text="${'$' + item.price}"></td>
+    <td><a th:href="@{'/cart/delete?id=' + ${item.id} }" class="btn btn-outline-danger">Delete</a></td>
+</tr>
+
+                                </tbody>
+                            </table>
+                            <div th:if="${cartItems.isEmpty()}">
+                                <h4 class="text-center text-muted">There Is No Item In The Cart</h4>
+                            </div>
+
+                            <div class="my-3">
+                                <input type="submit" th:if="${!cartItems.isEmpty()}" class="btn btn-outline-primary me-2" value="Confirm Order">
+                                <a th:href="@{/home}" class="btn btn-outline-secondary me-2">Continue Shopping</a>
+                                <a th:href="@{/cart/clear-cart}" th:if="${!cartItems.isEmpty()}" class="btn btn-outline-danger">Clear Cart</a>
+<!--                                <a th:href="@{'/cart/add-cart?id=' + ${p.id}}"-->
+<!--                                   class="text-end mb-3 btn btn-outline-primary">Add</a>-->
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
